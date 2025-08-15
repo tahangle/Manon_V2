@@ -706,6 +706,7 @@ body {
     
     .main-header {
         padding-top: var(--spacing-lg); /* Reduce top padding to move logo up */
+        overflow: visible !important; /* Allow overflow */
     }
     
     .nav-link.desktop-only {
@@ -727,18 +728,21 @@ body {
     
     /* Mobile navigation layout - keep grid system working */
     .main-nav {
-        display: grid; /* Keep grid system intact */
-        justify-items: center;
-        align-items: center;
+        display: block; /* Change to block for better control */
+        text-align: center;
+        overflow: visible !important;
     }
     
     /* Keep the logo visible on mobile and make it bigger */
     .site-logo {
         display: block !important;
         transform: scale(1.8);
-        overflow: visible;
-        grid-column: 1 / -1; /* Span all columns on mobile */
-        justify-self: center;
+        overflow: visible !important;
+        width: 150%; /* Wider than viewport */
+        max-width: none;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%) scale(1.8); /* Center and scale */
     }
     
     /* Force header to be visible when menu is open */
@@ -763,9 +767,8 @@ body {
     }
     
     .site-logo .logo-svg {
-        transform: scale(1.3);
-        overflow: visible;
-        width: 130%;
+        overflow: visible !important;
+        width: 100%;
     }
     
     /* Change logo color when menu is active */
