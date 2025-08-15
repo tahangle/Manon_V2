@@ -969,7 +969,7 @@ body {
     
     /* First card - top left */
     .experience-card:nth-child(1) {
-        top: 80px; /* Below menu toggle */
+        top: var(--spacing-lg); /* Align with menu toggle */
         left: var(--grid-margin);
         width: calc(50% - var(--grid-margin) - var(--grid-gutter)/2);
         animation-delay: 0.1s;
@@ -977,7 +977,7 @@ body {
     
     /* Second card - top right */
     .experience-card:nth-child(2) {
-        top: 200px; /* Below first card but staggered */
+        top: 160px; /* Below first card but staggered */
         right: var(--grid-margin);
         width: calc(50% - var(--grid-margin) - var(--grid-gutter)/2);
         animation-delay: 0.2s;

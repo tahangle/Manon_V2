@@ -322,6 +322,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }, 300);
                 }
+                
+                // Add fade-in for Experience cards on mobile
+                if (sectionId === 'experience' && window.innerWidth <= 768) {
+                    const experienceCards = section.querySelectorAll('.experience-card');
+                    experienceCards.forEach((card, index) => {
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 100 + (index * 100));
+                    });
+                }
             }
         };
         
