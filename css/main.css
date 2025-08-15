@@ -985,7 +985,7 @@ body {
     
     /* Third card - bottom left */
     .experience-card:nth-child(3) {
-        bottom: 180px;
+        bottom: calc(var(--spacing-2xl) * 2 + 140px); /* Account for wrapper padding + stagger */
         left: var(--grid-margin);
         width: calc(50% - var(--grid-margin) - var(--grid-gutter)/2);
         animation-delay: 0.3s;
@@ -993,7 +993,7 @@ body {
     
     /* Fourth card - bottom right */
     .experience-card:nth-child(4) {
-        bottom: 60px;
+        bottom: calc(var(--spacing-2xl) * 2 + 20px); /* Account for wrapper padding + extra space */
         right: var(--grid-margin);
         width: calc(50% - var(--grid-margin) - var(--grid-gutter)/2);
         animation-delay: 0.4s;
