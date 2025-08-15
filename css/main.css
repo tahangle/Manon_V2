@@ -732,9 +732,14 @@ body {
     .site-logo {
         display: block !important;
         transform: scale(1.8) translateY(-15vh); /* Move logo up responsively */
-        overflow: visible;
+        overflow: visible !important;
         grid-column: 1 / -1; /* Span all columns on mobile */
         justify-self: center;
+        width: 100vw !important; /* Full viewport width */
+        max-width: none !important; /* Remove max-width constraints */
+        position: relative;
+        left: 50%;
+        margin-left: -50vw; /* Center it properly */
     }
     
     /* Force header to be visible when menu is open */
@@ -760,8 +765,9 @@ body {
     
     .site-logo .logo-svg {
         transform: scale(1.3);
-        overflow: visible;
+        overflow: visible !important;
         width: 130%;
+        max-width: none !important;
     }
     
     /* Change logo color when menu is active */
