@@ -4,9 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // GSAP Logo Animation
     if (typeof gsap !== 'undefined') {
-        // Get all logo letters
-        const logoLetters = document.querySelectorAll('.logo-letter');
-        if (logoLetters.length > 0) {
+        // Set initial state for logo
+        const logoText = document.querySelector('.logo-text-outline');
+        if (logoText) {
             // Create a timeline for the logo animation
             const logoTl = gsap.timeline({
                 onComplete: () => {
@@ -19,76 +19,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
             
-            // Set initial state for each letter
-            logoLetters.forEach((letter, index) => {
-                // Calculate stroke length for each letter
-                const length = letter.getTotalLength ? letter.getTotalLength() : 150;
-                
-                gsap.set(letter, {
-                    opacity: 0,
-                    strokeDasharray: length,
-                    strokeDashoffset: length,
-                    fill: 'transparent',
-                    y: Math.random() * 10 - 5, // Slight random offset
-                    rotation: Math.random() * 4 - 2 // Slight random rotation
-                });
+            // Set initial state
+            gsap.set(logoText, {
+                opacity: 0,
+                strokeDasharray: 1000,
+                strokeDashoffset: 1000,
+                fill: 'transparent'
             });
             
-            // Animate each letter with a handwritten effect
-            logoLetters.forEach((letter, index) => {
-                const length = letter.getTotalLength ? letter.getTotalLength() : 150;
-                
-                // First draw the stroke
-                logoTl.to(letter, {
-                    duration: 0.3 + Math.random() * 0.2, // Vary duration slightly
-                    strokeDashoffset: 0,
-                    opacity: 1,
-                    y: 0,
-                    rotation: 0,
-                    ease: "power2.out"
-                }, index * 0.08) // Stagger each letter
-                
-                // Add fill after stroke
-                .to(letter, {
-                    duration: 0.2,
-                    fill: '#504545',
-                    ease: "power1.in"
-                }, "-=0.1");
-                
-                // Add a slight bounce when letter is done
-                logoTl.to(letter, {
-                    duration: 0.15,
-                    y: -2,
-                    ease: "back.out(3)"
-                }, "-=0.05")
-                .to(letter, {
-                    duration: 0.15,
-                    y: 0,
-                    ease: "power2.inOut"
-                });
-            });
-            
-            // Add pen lift effect between words (space between "Manon" and "Guilbert")
-            logoTl.set({}, {}, "+=0.1", 5); // Small pause after "Manon"
+            // Animate the stroke drawing
+            logoTl.to(logoText, {
+                duration: 2,
+                strokeDashoffset: 0,
+                opacity: 1,
+                ease: "power2.inOut"
+            })
+            // Then fill in the text
+            .to(logoText, {
+                duration: 0.8,
+                fill: '#504545',
+                ease: "power2.out"
+            }, "-=0.5"); // Start fill slightly before stroke completes
             
             // Add a subtle float animation after load
             gsap.to('.site-logo', {
-                y: -3,
-                duration: 3,
+                y: -5,
+                duration: 2,
                 repeat: -1,
                 yoyo: true,
-                ease: "sine.inOut",
+                ease: "power1.inOut",
                 delay: 3
-            });
-            
-            // Add slight rotation to mimic hand movement
-            gsap.to('.logo-letters', {
-                rotation: 0.5,
-                duration: 2.5,
-                repeat: -1,
-                yoyo: true,
-                ease: "sine.inOut",
-                delay: 3.2
             });
         }
     }

@@ -62,12 +62,6 @@ body {
     pointer-events: auto; /* But keep nav links clickable */
 }
 
-/* Logo Animation Styles */
-.logo-letter {
-    transform-origin: center;
-    transform-box: fill-box;
-}
-
 /* Navigation Styles */
 .nav-link {
     font-family: var(--font-apercu);
