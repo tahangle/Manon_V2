@@ -595,7 +595,7 @@ body {
 .mobile-section-title {
     display: none;
     position: fixed;
-    top: calc(50% - 25vh); /* Move section title up responsively */
+    top: calc(50% - 140px); /* Slightly higher than before */
     left: 50%;
     transform: translateX(-50%);
     font-family: var(--font-apercu);
@@ -704,6 +704,10 @@ body {
         height: 100vh;
     }
     
+    .main-header {
+        padding-top: var(--spacing-lg); /* Reduce top padding to move logo up */
+    }
+    
     .nav-link.desktop-only {
         display: none !important;
     }
@@ -731,15 +735,10 @@ body {
     /* Keep the logo visible on mobile and make it bigger */
     .site-logo {
         display: block !important;
-        transform: scale(1.8) translateY(-15vh); /* Move logo up responsively */
-        overflow: visible !important;
+        transform: scale(1.8);
+        overflow: visible;
         grid-column: 1 / -1; /* Span all columns on mobile */
         justify-self: center;
-        width: 100vw !important; /* Full viewport width */
-        max-width: none !important; /* Remove max-width constraints */
-        position: relative;
-        left: 50%;
-        margin-left: -50vw; /* Center it properly */
     }
     
     /* Force header to be visible when menu is open */
@@ -765,9 +764,8 @@ body {
     
     .site-logo .logo-svg {
         transform: scale(1.3);
-        overflow: visible !important;
+        overflow: visible;
         width: 130%;
-        max-width: none !important;
     }
     
     /* Change logo color when menu is active */
