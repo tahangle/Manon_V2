@@ -128,6 +128,29 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                         }, 300);
                     }
+                    
+                    // Experience section animation - Mobile
+                    if (targetId === 'experience') {
+                        const experienceCards = section.querySelectorAll('.experience-card');
+                        
+                        // Reset animations first
+                        experienceCards.forEach(card => {
+                            card.style.opacity = '0';
+                            card.style.transform = 'translateY(20px)';
+                            card.style.transition = 'none';
+                        });
+                        
+                        // Trigger animations with delay
+                        setTimeout(() => {
+                            experienceCards.forEach((card, index) => {
+                                setTimeout(() => {
+                                    card.style.transition = 'all 0.6s ease';
+                                    card.style.opacity = '1';
+                                    card.style.transform = 'translateY(0)';
+                                }, 100 + (index * 150));
+                            });
+                        }, 100);
+                    }
                 } else {
                     // Desktop animation for Studies
                     if (targetId === 'studies') {
@@ -138,6 +161,29 @@ document.addEventListener('DOMContentLoaded', () => {
                                 card.style.animation = '';
                             }, 10);
                         });
+                    }
+                    
+                    // Desktop animation for Experience
+                    if (targetId === 'experience') {
+                        const experienceCards = section.querySelectorAll('.experience-card');
+                        
+                        // Reset animations first
+                        experienceCards.forEach(card => {
+                            card.style.opacity = '0';
+                            card.style.transform = 'translateY(20px)';
+                            card.style.transition = 'none';
+                        });
+                        
+                        // Trigger animations with delay
+                        setTimeout(() => {
+                            experienceCards.forEach((card, index) => {
+                                setTimeout(() => {
+                                    card.style.transition = 'all 0.6s ease';
+                                    card.style.opacity = '1';
+                                    card.style.transform = 'translateY(0)';
+                                }, 100 + (index * 150));
+                            });
+                        }, 100);
                     }
                 }
             } else {
