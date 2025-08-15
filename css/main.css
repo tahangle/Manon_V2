@@ -797,7 +797,7 @@ body {
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-        padding-bottom: var(--spacing-2xl);
+        padding-bottom: calc(var(--spacing-2xl) * 2); /* Extra padding for mobile browser UI */
     }
     
     .about-content {
@@ -841,7 +841,7 @@ body {
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-        padding-bottom: var(--spacing-2xl);
+        padding-bottom: calc(var(--spacing-2xl) * 2); /* Extra padding for mobile browser UI */
     }
     
     /* Cards area - in the middle space */
@@ -935,6 +935,7 @@ body {
         display: flex;
         flex-direction: column;
         position: relative;
+        padding-bottom: calc(var(--spacing-2xl) * 2); /* Extra padding for mobile browser UI */
     }
     
     /* Top cards container - above logo */
