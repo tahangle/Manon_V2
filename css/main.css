@@ -36,8 +36,7 @@ body {
     background-color: var(--color-secondary);
     color: var(--color-black);
     min-height: 100vh;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden;
 }
 
 .container {
@@ -57,14 +56,6 @@ body {
     z-index: 10010; /* Higher than mobile menu overlay */
     padding: var(--spacing-2xl) 0;
     pointer-events: none; /* Allow clicks to pass through */
-    opacity: 0;
-    transform: translateY(-100%);
-    transition: all 1s cubic-bezier(0.86, 0, 0.07, 1);
-}
-
-.main-header.visible {
-    opacity: 1;
-    transform: translateY(0);
 }
 
 .main-header * {
@@ -282,7 +273,6 @@ body {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.5s ease, visibility 0.5s ease;
-    z-index: 1; /* Below hero */
 }
 
 .section.active {
