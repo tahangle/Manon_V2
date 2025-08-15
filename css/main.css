@@ -994,7 +994,7 @@ body {
     /* Mobile font sizes for Experience cards */
     .experience-card .company-name {
         font-family: var(--font-apercu);
-        font-size: 12px;
+        font-size: 10px;
         font-weight: 500; /* medium */
         text-transform: uppercase;
         letter-spacing: 0.08em;
@@ -1013,7 +1013,7 @@ body {
     
     .experience-card .position-type {
         font-family: var(--font-apercu);
-        font-size: 12px;
+        font-size: 10px;
         font-weight: 300; /* light */
         text-transform: uppercase;
         letter-spacing: 0.08em;
@@ -1024,7 +1024,7 @@ body {
     
     .experience-card .location {
         font-family: var(--font-apercu);
-        font-size: 12px;
+        font-size: 10px;
         font-weight: 300; /* light */
         text-transform: uppercase;
         letter-spacing: 0.08em;
@@ -1033,7 +1033,7 @@ body {
     
     .experience-card .years {
         font-family: var(--font-apercu);
-        font-size: 12px;
+        font-size: 10px;
         font-weight: 300; /* light */
         letter-spacing: 0.08em;
         color: var(--color-grey);
