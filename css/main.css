@@ -728,21 +728,19 @@ body {
     
     /* Mobile navigation layout - keep grid system working */
     .main-nav {
-        display: block; /* Change to block for better control */
-        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         overflow: visible !important;
     }
     
     /* Keep the logo visible on mobile and make it bigger */
     .site-logo {
         display: block !important;
-        transform: scale(1.8);
+        transform: scale(2); /* Just scale, no translate */
         overflow: visible !important;
-        width: 150%; /* Wider than viewport */
+        width: auto;
         max-width: none;
-        position: relative;
-        left: 50%;
-        transform: translateX(-50%) scale(1.8); /* Center and scale */
     }
     
     /* Force header to be visible when menu is open */
