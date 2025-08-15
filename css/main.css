@@ -36,7 +36,8 @@ body {
     background-color: var(--color-secondary);
     color: var(--color-black);
     min-height: 100vh;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .container {
@@ -281,6 +282,7 @@ body {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.5s ease, visibility 0.5s ease;
+    z-index: 1; /* Below hero */
 }
 
 .section.active {

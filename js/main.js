@@ -7,7 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Handle scroll to trigger background fill and navbar
     const handleHeroScroll = () => {
+        console.log('Scroll detected:', window.scrollY);
         if (window.scrollY > 50 && !hasScrolled) {
+            console.log('Triggering hero animation');
             hasScrolled = true;
             
             // Start background fill animation
@@ -55,6 +57,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    
+    // Skip regular navigation initialization if hero is present
+    if (!heroSection) {
+        initializeRegularNavigation();
+    }
+});
+
+function initializeRegularNavigation() {
     const body = document.body;
     const isMobile = window.innerWidth <= 768;
     
@@ -436,4 +446,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, { passive: false });
     }
-});
+}
