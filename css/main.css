@@ -737,7 +737,7 @@ body {
     /* Keep the logo visible on mobile and make it bigger */
     .site-logo {
         display: block !important;
-        transform: scale(2); /* Just scale, no translate */
+        transform: scale(3); /* Increased scale for bigger logo */
         overflow: visible !important;
         width: auto;
         max-width: none;
