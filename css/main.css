@@ -847,14 +847,14 @@ body {
     /* Cards area - in the middle space */
     .studies-middle-content {
         position: absolute;
-        top: 50%;
+        top: 45%; /* Moved up closer to logo */
         left: 0;
         right: 0;
-        bottom: 120px;
+        bottom: 25vh; /* Responsive spacing from bottom */
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: var(--spacing-3xl) var(--container-padding);
+        padding: var(--spacing-2xl) var(--container-padding); /* Reduced padding */
     }
     
     .education-cards {
