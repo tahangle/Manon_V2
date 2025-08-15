@@ -2,6 +2,57 @@ document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
     const isMobile = window.innerWidth <= 768;
     
+    // GSAP Logo Animation
+    if (typeof gsap !== 'undefined') {
+        // Set initial state for logo
+        const logoText = document.querySelector('.logo-text-outline');
+        if (logoText) {
+            // Create a timeline for the logo animation
+            const logoTl = gsap.timeline({
+                onComplete: () => {
+                    console.log('Logo animation complete');
+                    // Remove loading class after logo animation
+                    setTimeout(() => {
+                        body.classList.remove('loading');
+                        body.classList.add('loaded');
+                    }, 300);
+                }
+            });
+            
+            // Set initial state
+            gsap.set(logoText, {
+                opacity: 0,
+                strokeDasharray: 1000,
+                strokeDashoffset: 1000,
+                fill: 'transparent'
+            });
+            
+            // Animate the stroke drawing
+            logoTl.to(logoText, {
+                duration: 2,
+                strokeDashoffset: 0,
+                opacity: 1,
+                ease: "power2.inOut"
+            })
+            // Then fill in the text
+            .to(logoText, {
+                duration: 0.8,
+                fill: '#504545',
+                ease: "power2.out"
+            }, "-=0.5"); // Start fill slightly before stroke completes
+            
+            // Add a subtle float animation after load
+            gsap.to('.site-logo', {
+                y: -5,
+                duration: 2,
+                repeat: -1,
+                yoyo: true,
+                ease: "power1.inOut",
+                delay: 3
+            });
+        }
+    }
+    
     // Add loading class initially
     body.classList.add('loading');
     
@@ -129,18 +180,36 @@ document.addEventListener('DOMContentLoaded', () => {
                         }, 300);
                     }
                     
-                    // Experience section animation - Mobile
-                    if (targetId === 'experience') {
+                    // Experience section animation - Mobile with GSAP
+                    if (targetId === 'experience' && typeof gsap !== 'undefined') {
                         const experienceCards = section.querySelectorAll('.experience-card');
                         
-                        // Reset animations first
+                        // Use GSAP for mobile animations
+                        gsap.fromTo(experienceCards, 
+                            {
+                                opacity: 0,
+                                y: 20,
+                                scale: 0.9
+                            },
+                            {
+                                opacity: 1,
+                                y: 0,
+                                scale: 1,
+                                duration: 0.6,
+                                stagger: 0.12,
+                                ease: "power3.out",
+                                delay: 0.2
+                            }
+                        );
+                    } else if (targetId === 'experience') {
+                        // Fallback for non-GSAP
+                        const experienceCards = section.querySelectorAll('.experience-card');
                         experienceCards.forEach(card => {
                             card.style.opacity = '0';
                             card.style.transform = 'translateY(20px)';
                             card.style.transition = 'none';
                         });
                         
-                        // Trigger animations with delay
                         setTimeout(() => {
                             experienceCards.forEach((card, index) => {
                                 setTimeout(() => {
@@ -163,18 +232,38 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                     }
                     
-                    // Desktop animation for Experience
-                    if (targetId === 'experience') {
+                    // Desktop animation for Experience with GSAP
+                    if (targetId === 'experience' && typeof gsap !== 'undefined') {
                         const experienceCards = section.querySelectorAll('.experience-card');
                         
-                        // Reset animations first
+                        // Use GSAP for smoother animations
+                        gsap.fromTo(experienceCards, 
+                            {
+                                opacity: 0,
+                                y: 30,
+                                scale: 0.95,
+                                rotationY: -15
+                            },
+                            {
+                                opacity: 1,
+                                y: 0,
+                                scale: 1,
+                                rotationY: 0,
+                                duration: 0.8,
+                                stagger: 0.15,
+                                ease: "back.out(1.2)",
+                                delay: 0.1
+                            }
+                        );
+                    } else if (targetId === 'experience') {
+                        // Fallback for non-GSAP
+                        const experienceCards = section.querySelectorAll('.experience-card');
                         experienceCards.forEach(card => {
                             card.style.opacity = '0';
                             card.style.transform = 'translateY(20px)';
                             card.style.transition = 'none';
                         });
                         
-                        // Trigger animations with delay
                         setTimeout(() => {
                             experienceCards.forEach((card, index) => {
                                 setTimeout(() => {
