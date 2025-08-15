@@ -737,14 +737,13 @@ body {
     /* Keep the logo visible on mobile and make it bigger */
     .site-logo {
         display: block !important;
-        transform: scale(3); /* Increased scale for bigger logo */
         overflow: visible !important;
         width: auto;
         max-width: none;
     }
     
     .site-logo svg text {
-        font-size: 93px;
+        font-size: 93px !important;
     }
     
     /* Force header to be visible when menu is open */
