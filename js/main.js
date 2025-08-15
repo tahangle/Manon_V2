@@ -2,6 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
     const isMobile = window.innerWidth <= 768;
     
+    // Register GSAP ScrollTrigger plugin
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+    }
+    
     // GSAP Logo Animation
     if (typeof gsap !== 'undefined') {
         // Set initial state for logo
@@ -15,6 +20,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     setTimeout(() => {
                         body.classList.remove('loading');
                         body.classList.add('loaded');
+                        // Show first section after logo loads
+                        if (!isMobile) {
+                            const aboutSection = document.querySelector('#about');
+                            if (aboutSection) {
+                                gsap.to(aboutSection, {
+                                    opacity: 1,
+                                    visibility: 'visible',
+                                    duration: 0.5
+                                });
+                            }
+                        }
                     }, 300);
                 }
             });
@@ -22,33 +38,33 @@ document.addEventListener('DOMContentLoaded', () => {
             // Set initial state
             gsap.set(logoText, {
                 opacity: 0,
-                strokeDasharray: 1000,
-                strokeDashoffset: 1000,
+                strokeDasharray: 1500,
+                strokeDashoffset: 1500,
                 fill: 'transparent'
             });
             
             // Animate the stroke drawing
             logoTl.to(logoText, {
-                duration: 2,
+                duration: 2.5,
                 strokeDashoffset: 0,
                 opacity: 1,
                 ease: "power2.inOut"
             })
             // Then fill in the text
             .to(logoText, {
-                duration: 0.8,
+                duration: 1,
                 fill: '#504545',
                 ease: "power2.out"
-            }, "-=0.5"); // Start fill slightly before stroke completes
+            }, "-=0.8"); // Start fill slightly before stroke completes
             
             // Add a subtle float animation after load
             gsap.to('.site-logo', {
                 y: -5,
-                duration: 2,
+                duration: 3,
                 repeat: -1,
                 yoyo: true,
-                ease: "power1.inOut",
-                delay: 3
+                ease: "sine.inOut",
+                delay: 3.5
             });
         }
     }
@@ -115,12 +131,55 @@ document.addEventListener('DOMContentLoaded', () => {
     const showSection = (targetId) => {
         sections.forEach(section => {
             if (section.id === targetId) {
-                section.classList.add('active');
+                if (typeof gsap !== 'undefined') {
+                    // Use GSAP for smoother section transition
+                    gsap.set(section, { visibility: 'visible' });
+                    gsap.fromTo(section, 
+                        { opacity: 0 },
+                        { 
+                            opacity: 1, 
+                            duration: 0.5, 
+                            ease: "power2.inOut",
+                            onComplete: () => {
+                                section.classList.add('active');
+                            }
+                        }
+                    );
+                } else {
+                    section.classList.add('active');
+                }
                 
                 // Mobile animations
                 if (window.innerWidth <= 768) {
-                    // About section animation
-                    if (targetId === 'about') {
+                    // About section animation with GSAP
+                    if (targetId === 'about' && typeof gsap !== 'undefined') {
+                        const aboutContent = section.querySelector('.about-content');
+                        const aboutContentBottom = section.querySelector('.about-content-bottom');
+                        
+                        // Create GSAP timeline for About animations
+                        const aboutTl = gsap.timeline({ delay: 0.3 });
+                        
+                        if (aboutContent) {
+                            gsap.set(aboutContent, { opacity: 0, y: 20 });
+                            aboutTl.to(aboutContent, {
+                                opacity: 1,
+                                y: 0,
+                                duration: 0.6,
+                                ease: "power2.out"
+                            });
+                        }
+                        
+                        if (aboutContentBottom) {
+                            gsap.set(aboutContentBottom, { opacity: 0, y: 20 });
+                            aboutTl.to(aboutContentBottom, {
+                                opacity: 1,
+                                y: 0,
+                                duration: 0.6,
+                                ease: "power2.out"
+                            }, "-=0.4"); // Start slightly before previous animation ends
+                        }
+                    } else if (targetId === 'about') {
+                        // Fallback for non-GSAP
                         const aboutContent = section.querySelector('.about-content');
                         const aboutContentBottom = section.querySelector('.about-content-bottom');
                         
@@ -151,8 +210,37 @@ document.addEventListener('DOMContentLoaded', () => {
                         }, 300);
                     }
                     
-                    // Studies section animation
-                    if (targetId === 'studies') {
+                    // Studies section animation with GSAP
+                    if (targetId === 'studies' && typeof gsap !== 'undefined') {
+                        const studiesContent = section.querySelector('.studies-content');
+                        const educationCards = section.querySelectorAll('.education-card');
+                        
+                        // Create GSAP timeline for Studies animations
+                        const studiesTl = gsap.timeline({ delay: 0.3 });
+                        
+                        // Animate education cards
+                        if (educationCards.length > 0) {
+                            gsap.set(educationCards, { opacity: 0, y: 20 });
+                            studiesTl.to(educationCards, {
+                                opacity: 1,
+                                y: 0,
+                                duration: 0.6,
+                                stagger: 0.15,
+                                ease: "power2.out"
+                            });
+                        }
+                        
+                        // Animate studies content paragraph
+                        if (studiesContent) {
+                            gsap.set(studiesContent, { opacity: 0 });
+                            studiesTl.to(studiesContent, {
+                                opacity: 1,
+                                duration: 0.6,
+                                ease: "power2.out"
+                            }, "-=0.3"); // Start slightly before cards finish
+                        }
+                    } else if (targetId === 'studies') {
+                        // Fallback for non-GSAP
                         const studiesContent = section.querySelector('.studies-content');
                         const educationCards = section.querySelectorAll('.education-card');
                         
@@ -221,8 +309,35 @@ document.addEventListener('DOMContentLoaded', () => {
                         }, 100);
                     }
                 } else {
-                    // Desktop animation for Studies
-                    if (targetId === 'studies') {
+                    // Desktop animation for Studies with GSAP
+                    if (targetId === 'studies' && typeof gsap !== 'undefined') {
+                        const cards = section.querySelectorAll('.education-card');
+                        const studiesContent = section.querySelector('.studies-content');
+                        
+                        // Create GSAP timeline for desktop Studies animations
+                        const studiesTl = gsap.timeline();
+                        
+                        if (cards.length > 0) {
+                            gsap.set(cards, { opacity: 0, y: 20 });
+                            studiesTl.to(cards, {
+                                opacity: 1,
+                                y: 0,
+                                duration: 0.6,
+                                stagger: 0.15,
+                                ease: "power2.out"
+                            });
+                        }
+                        
+                        if (studiesContent) {
+                            gsap.set(studiesContent, { opacity: 0 });
+                            studiesTl.to(studiesContent, {
+                                opacity: 1,
+                                duration: 0.6,
+                                ease: "power2.out"
+                            }, "-=0.3");
+                        }
+                    } else if (targetId === 'studies') {
+                        // Fallback for non-GSAP
                         const cards = section.querySelectorAll('.education-card');
                         cards.forEach((card, index) => {
                             card.style.animation = 'none';
@@ -276,7 +391,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             } else {
-                section.classList.remove('active');
+                if (typeof gsap !== 'undefined') {
+                    // Use GSAP for smoother section hiding
+                    if (section.classList.contains('active')) {
+                        gsap.to(section, {
+                            opacity: 0,
+                            duration: 0.3,
+                            ease: "power2.in",
+                            onComplete: () => {
+                                section.classList.remove('active');
+                                section.style.visibility = 'hidden';
+                            }
+                        });
+                    }
+                } else {
+                    section.classList.remove('active');
+                }
             }
         });
         
@@ -296,15 +426,60 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (menuToggle && mobileMenuOverlay) {
         menuToggle.addEventListener('click', () => {
-            mobileMenuOverlay.classList.add('active');
-            body.classList.add('menu-open');
+            if (typeof gsap !== 'undefined') {
+                // Use GSAP for smoother menu animation
+                gsap.set(mobileMenuOverlay, { visibility: 'visible' });
+                gsap.to(mobileMenuOverlay, {
+                    opacity: 1,
+                    duration: 0.3,
+                    ease: "power2.out",
+                    onStart: () => {
+                        body.classList.add('menu-open');
+                    }
+                });
+                
+                // Animate menu links
+                const mobileNavLinks = mobileMenuOverlay.querySelectorAll('.mobile-nav-link');
+                gsap.fromTo(mobileNavLinks, 
+                    {
+                        opacity: 0,
+                        x: 20
+                    },
+                    {
+                        opacity: 1,
+                        x: 0,
+                        duration: 0.4,
+                        stagger: 0.08,
+                        ease: "power2.out",
+                        delay: 0.2
+                    }
+                );
+            } else {
+                // Fallback
+                mobileMenuOverlay.classList.add('active');
+                body.classList.add('menu-open');
+            }
         });
     }
     
     if (menuClose && mobileMenuOverlay) {
         menuClose.addEventListener('click', () => {
-            mobileMenuOverlay.classList.remove('active');
-            body.classList.remove('menu-open');
+            if (typeof gsap !== 'undefined') {
+                // Use GSAP for smoother menu close animation
+                gsap.to(mobileMenuOverlay, {
+                    opacity: 0,
+                    duration: 0.25,
+                    ease: "power2.in",
+                    onComplete: () => {
+                        mobileMenuOverlay.style.visibility = 'hidden';
+                        body.classList.remove('menu-open');
+                    }
+                });
+            } else {
+                // Fallback
+                mobileMenuOverlay.classList.remove('active');
+                body.classList.remove('menu-open');
+            }
         });
     }
     
@@ -312,18 +487,45 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileNavLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
-            mobileMenuOverlay.classList.remove('active');
-            body.classList.remove('menu-open');
             
-            const target = link.getAttribute('href');
-            if (target && target !== '#') {
-                const targetId = target.replace('#', '');
-                showSection(targetId);
+            if (typeof gsap !== 'undefined') {
+                // Use GSAP for smoother menu close
+                gsap.to(mobileMenuOverlay, {
+                    opacity: 0,
+                    duration: 0.25,
+                    ease: "power2.in",
+                    onComplete: () => {
+                        mobileMenuOverlay.style.visibility = 'hidden';
+                        body.classList.remove('menu-open');
+                        
+                        const target = link.getAttribute('href');
+                        if (target && target !== '#') {
+                            const targetId = target.replace('#', '');
+                            showSection(targetId);
+                            
+                            // Update mobile section title
+                            if (mobileSectionTitle) {
+                                const sectionName = link.textContent.replace('[', '').replace(']', '').trim();
+                                mobileSectionTitle.textContent = `[ ${sectionName} ]`;
+                            }
+                        }
+                    }
+                });
+            } else {
+                // Fallback
+                mobileMenuOverlay.classList.remove('active');
+                body.classList.remove('menu-open');
                 
-                // Update mobile section title
-                if (mobileSectionTitle) {
-                    const sectionName = link.textContent.replace('[', '').replace(']', '').trim();
-                    mobileSectionTitle.textContent = `[ ${sectionName} ]`;
+                const target = link.getAttribute('href');
+                if (target && target !== '#') {
+                    const targetId = target.replace('#', '');
+                    showSection(targetId);
+                    
+                    // Update mobile section title
+                    if (mobileSectionTitle) {
+                        const sectionName = link.textContent.replace('[', '').replace(']', '').trim();
+                        mobileSectionTitle.textContent = `[ ${sectionName} ]`;
+                    }
                 }
             }
         });
@@ -394,8 +596,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Update mobile nav brackets
                 updateMobileNavBrackets(sectionIds[currentSectionIndex]);
                 
-                // Trigger animations for About section
-                if (sectionIds[currentSectionIndex] === 'about') {
+                // Trigger animations for About section with GSAP
+                if (sectionIds[currentSectionIndex] === 'about' && typeof gsap !== 'undefined') {
+                    const aboutContent = newSection.querySelector('.about-content');
+                    const aboutContentBottom = newSection.querySelector('.about-content-bottom');
+                    
+                    // Create GSAP timeline for About animations
+                    const aboutTl = gsap.timeline({ delay: 0.3 });
+                    
+                    if (aboutContent) {
+                        gsap.set(aboutContent, { opacity: 0, y: 20 });
+                        aboutTl.to(aboutContent, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.6,
+                            ease: "power2.out"
+                        });
+                    }
+                    
+                    if (aboutContentBottom) {
+                        gsap.set(aboutContentBottom, { opacity: 0, y: 20 });
+                        aboutTl.to(aboutContentBottom, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.6,
+                            ease: "power2.out"
+                        }, "-=0.4");
+                    }
+                } else if (sectionIds[currentSectionIndex] === 'about') {
+                    // Fallback for non-GSAP
                     const aboutContent = newSection.querySelector('.about-content');
                     const aboutContentBottom = newSection.querySelector('.about-content-bottom');
                     
@@ -426,8 +655,35 @@ document.addEventListener('DOMContentLoaded', () => {
                     }, 300);
                 }
                 
-                // Trigger animations for Studies section
-                if (sectionIds[currentSectionIndex] === 'studies') {
+                // Trigger animations for Studies section with GSAP
+                if (sectionIds[currentSectionIndex] === 'studies' && typeof gsap !== 'undefined') {
+                    const studiesContent = newSection.querySelector('.studies-content');
+                    const educationCards = newSection.querySelectorAll('.education-card');
+                    
+                    // Create GSAP timeline for Studies animations
+                    const studiesTl = gsap.timeline({ delay: 0.3 });
+                    
+                    if (educationCards.length > 0) {
+                        gsap.set(educationCards, { opacity: 0, y: 20 });
+                        studiesTl.to(educationCards, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.6,
+                            stagger: 0.15,
+                            ease: "power2.out"
+                        });
+                    }
+                    
+                    if (studiesContent) {
+                        gsap.set(studiesContent, { opacity: 0 });
+                        studiesTl.to(studiesContent, {
+                            opacity: 1,
+                            duration: 0.6,
+                            ease: "power2.out"
+                        }, "-=0.3");
+                    }
+                } else if (sectionIds[currentSectionIndex] === 'studies') {
+                    // Fallback for non-GSAP
                     const studiesContent = newSection.querySelector('.studies-content');
                     const educationCards = newSection.querySelectorAll('.education-card');
                     
@@ -458,9 +714,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     }, 300);
                 }
                 
-                // Add fade-in for Experience cards (both desktop and mobile)
-                if (sectionId === 'experience') {
-                    const experienceCards = section.querySelectorAll('.experience-card');
+                // Add fade-in for Experience cards with GSAP
+                if (sectionIds[currentSectionIndex] === 'experience' && typeof gsap !== 'undefined') {
+                    const experienceCards = newSection.querySelectorAll('.experience-card');
+                    
+                    // Use GSAP for animations
+                    gsap.fromTo(experienceCards, 
+                        {
+                            opacity: 0,
+                            y: 20,
+                            scale: 0.9
+                        },
+                        {
+                            opacity: 1,
+                            y: 0,
+                            scale: 1,
+                            duration: 0.6,
+                            stagger: 0.12,
+                            ease: "power3.out",
+                            delay: 0.2
+                        }
+                    );
+                } else if (sectionIds[currentSectionIndex] === 'experience') {
+                    // Fallback for non-GSAP
+                    const experienceCards = newSection.querySelectorAll('.experience-card');
                     
                     // Reset animations first
                     experienceCards.forEach(card => {
