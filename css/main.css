@@ -743,6 +743,10 @@ body {
         max-width: none;
     }
     
+    .site-logo svg text {
+        font-size: 93px;
+    }
+    
     /* Force header to be visible when menu is open */
     body.menu-open .main-header {
         z-index: 10020 !important;
