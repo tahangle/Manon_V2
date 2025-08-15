@@ -1,4 +1,60 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Hero Animation and Scroll Effects
+    const heroSection = document.querySelector('.hero-section');
+    const backgroundFill = document.querySelector('.background-fill');
+    const mainHeader = document.querySelector('.main-header');
+    let hasScrolled = false;
+    
+    // Handle scroll to trigger background fill and navbar
+    const handleHeroScroll = () => {
+        if (window.scrollY > 50 && !hasScrolled) {
+            hasScrolled = true;
+            
+            // Start background fill animation
+            backgroundFill.classList.add('active');
+            
+            // Hide hero cards
+            heroSection.classList.add('scrolled');
+            
+            // Show navbar with delay
+            setTimeout(() => {
+                mainHeader.classList.add('visible');
+            }, 600);
+            
+            // After animation, hide hero completely and show first section
+            setTimeout(() => {
+                heroSection.style.display = 'none';
+                backgroundFill.style.display = 'none';
+                // Show the first section (About)
+                const aboutSection = document.querySelector('#about');
+                if (aboutSection) {
+                    aboutSection.classList.add('active');
+                }
+            }, 2000);
+        }
+    };
+    
+    // Listen for scroll on desktop
+    if (window.innerWidth > 768) {
+        window.addEventListener('scroll', handleHeroScroll);
+        window.addEventListener('wheel', handleHeroScroll, { passive: true });
+    }
+    
+    // For mobile, trigger on touch
+    if (window.innerWidth <= 768) {
+        let touchStart = 0;
+        
+        window.addEventListener('touchstart', (e) => {
+            touchStart = e.touches[0].clientY;
+        });
+        
+        window.addEventListener('touchmove', (e) => {
+            const touchDiff = touchStart - e.touches[0].clientY;
+            if (touchDiff > 30 && !hasScrolled) {
+                handleHeroScroll();
+            }
+        });
+    }
     const body = document.body;
     const isMobile = window.innerWidth <= 768;
     

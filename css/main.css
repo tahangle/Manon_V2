@@ -56,6 +56,14 @@ body {
     z-index: 10010; /* Higher than mobile menu overlay */
     padding: var(--spacing-2xl) 0;
     pointer-events: none; /* Allow clicks to pass through */
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: all 1s cubic-bezier(0.86, 0, 0.07, 1);
+}
+
+.main-header.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .main-header * {
