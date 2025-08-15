@@ -323,15 +323,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     }, 300);
                 }
                 
-                // Add fade-in for Experience cards on mobile
-                if (sectionId === 'experience' && window.innerWidth <= 768) {
+                // Add fade-in for Experience cards (both desktop and mobile)
+                if (sectionId === 'experience') {
                     const experienceCards = section.querySelectorAll('.experience-card');
-                    experienceCards.forEach((card, index) => {
-                        setTimeout(() => {
-                            card.style.opacity = '1';
-                            card.style.transform = 'translateY(0)';
-                        }, 100 + (index * 100));
+                    
+                    // Reset animations first
+                    experienceCards.forEach(card => {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
                     });
+                    
+                    // Trigger animations with delay (same timing as Studies cards)
+                    setTimeout(() => {
+                        experienceCards.forEach((card, index) => {
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                                card.style.transition = 'all 0.6s ease';
+                            }, 100 + (index * 150)); // Same timing as Studies cards
+                        });
+                    }, 100);
                 }
             }
         };
