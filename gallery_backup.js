@@ -1,0 +1,214 @@
+// Editorial Gallery for Desktop
+(function() {
+    // Only run on desktop
+    if (window.innerWidth <= 768) return;
+    
+    // Project images organized by project
+    const projects = {
+        '01_WSJxRyanGosling': [
+            'WSJxRyanGosling_1.jpg',
+            'WSJxRyanGosling_2.jpg',
+            'WSJxRyanGosling_3.jpeg',
+            'WSJxRyanGosling_4.jpg'
+        ],
+        '02_VogueHKxAnyaTJ': [
+            'VogueHKxAnyaTJ_1.jpg',
+            'VogueHKxAnyaTJ_2.jpg',
+            'VogueHKxAnyaTJ_3.jpg',
+            'VogueHKxAnyaTJ_4.jpg',
+            'VogueHKxAnyaTJ_5.jpg',
+            'VogueHKxAnyaTJ_6.jpg',
+            'VogueHKxAnyaTJ_7.jpg',
+            'VogueHKxAnyaTJ_8.jpg',
+            'VogueHKxAnyaTJ_9.jpg',
+            'VogueHKxAnyaTJ_10.jpg',
+            'VogueHKxAnyaTJ_11.jpg'
+        ],
+        '03_WSJxOaxaca': [
+            'WSJxOaxaca_1.jpeg',
+            'WSJxOaxaca_2.jpeg',
+            'WSJxOaxaca_3.jpeg',
+            'WSJxOaxaca_4.jpeg',
+            'WSJxOaxaca_5.jpeg',
+            'WSJxOaxaca_6.jpeg',
+            'WSJxOaxaca_7.jpeg',
+            'WSJxOaxaca_8.jpeg',
+            'WSJxOaxaca_9.jpeg',
+            'WSJxOaxaca_10.jpeg',
+            'WSJxOaxaca_11.jpeg',
+            'WSJxOaxaca_12.jpeg',
+            'WSJxOaxaca_13.jpeg',
+            'WSJxOaxaca_14.jpeg',
+            'WSJxOaxaca_15.jpeg',
+            'WSJxOaxaca_16.jpeg',
+            'WSJxOaxaca_17.jpeg'
+        ],
+        '04_MusexAmberValletta': [
+            'MusexAmberValletta_1.jpg',
+            'MusexAmberValletta_2.jpg',
+            'MusexAmberValletta_3.jpg',
+            'MusexAmberValletta_4.jpg',
+            'MusexAmberValletta_5.jpg',
+            'MusexAmberValletta_6.jpg',
+            'MusexAmberValletta_7.jpg',
+            'MusexAmberValletta_8.jpg',
+            'MusexAmberValletta_9.jpg',
+            'MusexAmberValletta_10.jpg'
+        ],
+        '05_RollingStonesxShakira': [
+            'RollingStonesxShakira_1.jpg',
+            'RollingStonesxShakira_2.jpg',
+            'RollingStonesxShakira_3.jpg',
+            'RollingStonesxShakira_4.jpg',
+            'RollingStonesxShakira_5.jpg',
+            'RollingStonesxShakira_6.jpg',
+            'RollingStonesxShakira_7.jpg',
+            'RollingStonesxShakira_8.jpg'
+        ],
+        '06_VogueHKxRoryvan': [
+            'VogueHKxRoryvan_1.jpg',
+            'VogueHKxRoryvan_2.jpg',
+            'VogueHKxRoryvan_3.jpg',
+            'VogueHKxRoryvan_4.jpg',
+            'VogueHKxRoryvan_5.jpg',
+            'VogueHKxRoryvan_6.jpg',
+            'VogueHKxRoryvan_7.jpg',
+            'VogueHKxRoryvan_8.jpg',
+            'VogueHKxRoryvan_9.jpg',
+            'VogueHKxRoryvan_10.jpg',
+            'VogueHKxRoryvan_11.jpg',
+            'VogueHKxRoryvan_12.jpg',
+            'VogueHKxRoryvan_13.jpg',
+            'VogueHKxRoryvan_14.jpg',
+            'VogueHKxRoryvan_15.jpg',
+            'VogueHKxRoryvan_16.jpg',
+            'VogueHKxRoryvan_17.jpg'
+        ],
+        '07_VogueHKxFelixCooper': [
+            'VogueHKxFelixCooper.webp',
+            'Vogue-Hong-Kong-April-2024-Story-by-Felix-Cooper-2.webp',
+            'Vogue-Hong-Kong-April-2024-Story-by-Felix-Cooper-4.webp',
+            'Vogue-Hong-Kong-April-2024-Story-by-Felix-Cooper-5.webp',
+            'Vogue-Hong-Kong-April-2024-Story-by-Felix-Cooper-6.webp',
+            'Vogue-Hong-Kong-April-2024-Story-by-Felix-Cooper-7.webp',
+            'Vogue-Hong-Kong-April-2024-Story-by-Felix-Cooper-8.webp',
+            'Vogue-Hong-Kong-April-2024-Story-by-Felix-Cooper-9.webp',
+            'Vogue-Hong-Kong-April-2024-Story-by-Felix-Cooper-10.webp',
+            'Vogue-Hong-Kong-April-2024-Story-by-Felix-Cooper-11.webp',
+            'Vogue-Hong-Kong-April-2024-Story-by-Felix-Cooper-12.webp',
+            'Vogue-Hong-Kong-April-2024-Story-by-Felix-Cooper-13.webp',
+            'Vogue-Hong-Kong-April-2024-Story-by-Felix-Cooper-14.webp',
+            'Vogue-Hong-Kong-April-2024-Story-by-Felix-Cooper-15.webp',
+            'Vogue-Hong-Kong-April-2024-Story-by-Felix-Cooper-16.webp',
+            'Vogue-Hong-Kong-April-2024-Story-by-Felix-Cooper-17.webp'
+        ]
+    };
+    
+    const leftImg = document.getElementById('gallery-left-img');
+    const rightImg = document.getElementById('gallery-right-img');
+    
+    let currentLeftProject = null;
+    let currentRightProject = null;
+    
+    // Get random size within range
+    function getRandomSize() {
+        const minWidth = 200;
+        const maxWidth = 800;
+        const width = Math.floor(Math.random() * (maxWidth - minWidth + 1)) + minWidth;
+        // Let height be completely random for natural aspect ratios
+        const minHeight = 200;
+        const maxHeight = 700;
+        const height = Math.floor(Math.random() * (maxHeight - minHeight + 1)) + minHeight;
+        return { width, height };
+    }
+    
+    // Get random image from a project different from the excluded one
+    function getRandomImage(excludeProject) {
+        const projectKeys = Object.keys(projects);
+        let availableProjects = projectKeys.filter(p => p !== excludeProject);
+        
+        // If no other projects available, use all projects
+        if (availableProjects.length === 0) {
+            availableProjects = projectKeys;
+        }
+        
+        const randomProject = availableProjects[Math.floor(Math.random() * availableProjects.length)];
+        const projectImages = projects[randomProject];
+        const randomImage = projectImages[Math.floor(Math.random() * projectImages.length)];
+        
+        return {
+            src: `projects/${randomProject}/${randomImage}`,
+            project: randomProject
+        };
+    }
+    
+    // Change image with fade effect
+    function changeImage(img, isLeft) {
+        const excludeProject = isLeft ? currentRightProject : currentLeftProject;
+        const newImage = getRandomImage(excludeProject);
+        const size = getRandomSize();
+        
+        // Fade out
+        img.style.opacity = '0';
+        
+        setTimeout(() => {
+            img.src = newImage.src;
+            img.style.width = size.width + 'px';
+            img.style.height = size.height + 'px';
+            
+            // Update current project
+            if (isLeft) {
+                currentLeftProject = newImage.project;
+            } else {
+                currentRightProject = newImage.project;
+            }
+            
+            // Fade in
+            img.style.opacity = '1';
+        }, 500);
+    }
+    
+    // Initialize with random images
+    function init() {
+        changeImage(leftImg, true);
+        setTimeout(() => {
+            changeImage(rightImg, false);
+        }, 250);
+    }
+    
+    // Click handlers
+    document.addEventListener('click', (e) => {
+        // Ignore clicks on interactive elements
+        if (e.target.closest('a, button, input, textarea, select, .nav-link, .menu-toggle, .mobile-menu-overlay')) {
+            return;
+        }
+        
+        const x = e.clientX;
+        const midpoint = window.innerWidth / 2;
+        
+        if (x < midpoint) {
+            changeImage(leftImg, true);
+        } else {
+            changeImage(rightImg, false);
+        }
+    });
+    
+    // Keyboard handler
+    document.addEventListener('keydown', (e) => {
+        // Ignore if typing in an input
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+            return;
+        }
+        
+        // Random side
+        const randomSide = Math.random() < 0.5;
+        if (randomSide) {
+            changeImage(leftImg, true);
+        } else {
+            changeImage(rightImg, false);
+        }
+    });
+    
+    // Start after loading animation
+    setTimeout(init, 5500);
+})();

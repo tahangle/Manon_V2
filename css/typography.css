@@ -1,0 +1,136 @@
+@font-face {
+    font-family: 'Monsieur La Doulaise';
+    src: url('../fonts/MonsieurLaDoulaise-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Calvino';
+    src: url('../fonts/Calvino-Variable-trial.ttf') format('truetype-variations');
+    font-weight: 100 900;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Calvino';
+    src: url('../fonts/Calvino-Semibold-trial.ttf') format('truetype');
+    font-weight: 600;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'EB Garamond';
+    src: url('../fonts/EBGaramond-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Apercu Mono Pro';
+    src: url('../fonts/ApercuMono-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Apercu Mono Pro';
+    src: url('../fonts/ApercuMono-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-display: swap;
+}
+
+:root {
+    --font-monsieur: 'Monsieur La Doulaise', cursive;
+    --font-calvino: 'Calvino', serif;
+    --font-garamond: 'EB Garamond', serif;
+    --font-apercu: 'Apercu Mono Pro', monospace;
+}
+
+body {
+    font-family: var(--font-garamond);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+h1, .logo {
+    font-family: var(--font-monsieur);
+    font-size: 80px;
+    font-weight: 400;
+    line-height: 1;
+}
+
+h2 {
+    font-family: var(--font-calvino);
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+h3 {
+    font-family: var(--font-garamond);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+h4 {
+    font-family: var(--font-apercu);
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1.4;
+}
+
+p {
+    font-family: var(--font-garamond);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+.caption-1 {
+    font-family: var(--font-apercu);
+    font-size: 9px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+}
+
+.caption-2 {
+    font-family: var(--font-apercu);
+    font-size: 9px;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+    h2 {
+        font-size: 30px;
+    }
+    
+    h3 {
+        font-size: 20px;
+    }
+    
+    h4 {
+        font-size: 12px;
+    }
+    
+    p {
+        font-size: 16px;
+    }
+    
+    .caption-1 {
+        font-size: 12px;
+    }
+    
+    .caption-2 {
+        font-size: 12px;
+    }
+}
