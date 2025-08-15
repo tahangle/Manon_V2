@@ -20,17 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     setTimeout(() => {
                         body.classList.remove('loading');
                         body.classList.add('loaded');
-                        // Show first section after logo loads
-                        if (!isMobile) {
-                            const aboutSection = document.querySelector('#about');
-                            if (aboutSection) {
-                                gsap.to(aboutSection, {
-                                    opacity: 1,
-                                    visibility: 'visible',
-                                    duration: 0.5
-                                });
-                            }
-                        }
+                        // Don't show any section automatically on desktop
                     }, 300);
                 }
             });
