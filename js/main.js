@@ -67,20 +67,16 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.remove('loading');
         body.classList.add('loaded');
         
-        // On mobile, show about section after loading but don't override the title
+        // On mobile, set initial section title
         if (isMobile) {
-            const aboutSection = document.querySelector('#about');
-            if (aboutSection && !document.querySelector('.section.active')) {
-                aboutSection.classList.add('active');
-                const mobileSectionTitle = document.querySelector('.mobile-section-title');
-                if (mobileSectionTitle) {
-                    mobileSectionTitle.textContent = '[ ABOUT ]';
-                }
-                // Set initial mobile nav brackets for about
-                setTimeout(() => {
-                    updateMobileNavBrackets('about');
-                }, 100);
+            const mobileSectionTitle = document.querySelector('.mobile-section-title');
+            if (mobileSectionTitle) {
+                mobileSectionTitle.textContent = '[ ABOUT ]';
             }
+            // Set initial mobile nav brackets for about
+            setTimeout(() => {
+                updateMobileNavBrackets('about');
+            }, 100);
         }
     }, 5000);
     
@@ -119,6 +115,16 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Function to show specific section
     const showSection = (targetId) => {
+        // On mobile, just scroll to the section
+        if (window.innerWidth <= 768) {
+            const targetSection = document.querySelector(`#${targetId}`);
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }
+            return;
+        }
+        
+        // Desktop behavior - show/hide sections
         sections.forEach(section => {
             if (section.id === targetId) {
                 if (typeof gsap !== 'undefined') {
@@ -139,166 +145,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     section.classList.add('active');
                 }
                 
-                // Mobile animations
-                if (window.innerWidth <= 768) {
-                    // About section animation with GSAP
-                    if (targetId === 'about' && typeof gsap !== 'undefined') {
-                        const aboutContent = section.querySelector('.about-content');
-                        const aboutContentBottom = section.querySelector('.about-content-bottom');
-                        
-                        // Create GSAP timeline for About animations
-                        const aboutTl = gsap.timeline({ delay: 0.3 });
-                        
-                        if (aboutContent) {
-                            gsap.set(aboutContent, { opacity: 0, y: 20 });
-                            aboutTl.to(aboutContent, {
-                                opacity: 1,
-                                y: 0,
-                                duration: 0.6,
-                                ease: "power2.out"
-                            });
-                        }
-                        
-                        if (aboutContentBottom) {
-                            gsap.set(aboutContentBottom, { opacity: 0, y: 20 });
-                            aboutTl.to(aboutContentBottom, {
-                                opacity: 1,
-                                y: 0,
-                                duration: 0.6,
-                                ease: "power2.out"
-                            }, "-=0.4"); // Start slightly before previous animation ends
-                        }
-                    } else if (targetId === 'about') {
-                        // Fallback for non-GSAP
-                        const aboutContent = section.querySelector('.about-content');
-                        const aboutContentBottom = section.querySelector('.about-content-bottom');
-                        
-                        // Reset animations
-                        if (aboutContent) {
-                            aboutContent.style.opacity = '0';
-                            aboutContent.style.transform = 'translateY(20px)';
-                        }
-                        if (aboutContentBottom) {
-                            aboutContentBottom.style.opacity = '0';
-                            aboutContentBottom.style.transform = 'translateY(20px)';
-                        }
-                        
-                        // Trigger animations with delay
-                        setTimeout(() => {
-                            if (aboutContent) {
-                                aboutContent.style.transition = 'all 0.6s ease';
-                                aboutContent.style.opacity = '1';
-                                aboutContent.style.transform = 'translateY(0)';
-                            }
-                            if (aboutContentBottom) {
-                                setTimeout(() => {
-                                    aboutContentBottom.style.transition = 'all 0.6s ease';
-                                    aboutContentBottom.style.opacity = '1';
-                                    aboutContentBottom.style.transform = 'translateY(0)';
-                                }, 200);
-                            }
-                        }, 300);
-                    }
-                    
-                    // Studies section animation with GSAP
-                    if (targetId === 'studies' && typeof gsap !== 'undefined') {
-                        const studiesContent = section.querySelector('.studies-content');
-                        const educationCards = section.querySelectorAll('.education-card');
-                        
-                        // Create GSAP timeline for Studies animations
-                        const studiesTl = gsap.timeline({ delay: 0.3 });
-                        
-                        // Animate education cards
-                        if (educationCards.length > 0) {
-                            gsap.set(educationCards, { opacity: 0, y: 20 });
-                            studiesTl.to(educationCards, {
-                                opacity: 1,
-                                y: 0,
-                                duration: 0.6,
-                                stagger: 0.15,
-                                ease: "power2.out"
-                            });
-                        }
-                        
-                        // Animate studies content paragraph
-                        if (studiesContent) {
-                            gsap.set(studiesContent, { opacity: 0 });
-                            studiesTl.to(studiesContent, {
-                                opacity: 1,
-                                duration: 0.6,
-                                ease: "power2.out"
-                            }, "-=0.3"); // Start slightly before cards finish
-                        }
-                    } else if (targetId === 'studies') {
-                        // Fallback for non-GSAP
-                        const studiesContent = section.querySelector('.studies-content');
-                        const educationCards = section.querySelectorAll('.education-card');
-                        
-                        // Reset animations
-                        if (studiesContent) {
-                            studiesContent.classList.remove('visible');
-                        }
-                        educationCards.forEach(card => {
-                            card.classList.remove('visible');
-                        });
-                        
-                        // Trigger animations with delay
-                        setTimeout(() => {
-                            educationCards.forEach((card, index) => {
-                                setTimeout(() => {
-                                    card.classList.add('visible');
-                                }, 100 + (index * 150));
-                            });
-                            // Show paragraph after cards
-                            if (studiesContent) {
-                                setTimeout(() => {
-                                    studiesContent.classList.add('visible');
-                                }, 400);
-                            }
-                        }, 300);
-                    }
-                    
-                    // Experience section animation - Mobile with GSAP
-                    if (targetId === 'experience' && typeof gsap !== 'undefined') {
-                        const experienceCards = section.querySelectorAll('.experience-card');
-                        
-                        // Use GSAP for mobile animations
-                        gsap.fromTo(experienceCards, 
-                            {
-                                opacity: 0,
-                                y: 20,
-                                scale: 0.9
-                            },
-                            {
-                                opacity: 1,
-                                y: 0,
-                                scale: 1,
-                                duration: 0.6,
-                                stagger: 0.12,
-                                ease: "power3.out",
-                                delay: 0.2
-                            }
-                        );
-                    } else if (targetId === 'experience') {
-                        // Fallback for non-GSAP
-                        const experienceCards = section.querySelectorAll('.experience-card');
-                        experienceCards.forEach(card => {
-                            card.style.opacity = '0';
-                            card.style.transform = 'translateY(20px)';
-                            card.style.transition = 'none';
-                        });
-                        
-                        setTimeout(() => {
-                            experienceCards.forEach((card, index) => {
-                                setTimeout(() => {
-                                    card.style.transition = 'all 0.6s ease';
-                                    card.style.opacity = '1';
-                                    card.style.transform = 'translateY(0)';
-                                }, 100 + (index * 150));
-                            });
-                        }, 100);
-                    }
-                } else {
+                // Desktop animations
+                if (window.innerWidth > 768) {
                     // Desktop animation for Studies with GSAP
                     if (targetId === 'studies' && typeof gsap !== 'undefined') {
                         const cards = section.querySelectorAll('.education-card');
@@ -473,48 +321,39 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Mobile nav links
+    // Mobile nav links - scroll to section instead of showing/hiding
     mobileNavLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             
-            if (typeof gsap !== 'undefined') {
-                // Use GSAP for smoother menu close
-                gsap.to(mobileMenuOverlay, {
-                    opacity: 0,
-                    duration: 0.25,
-                    ease: "power2.in",
-                    onComplete: () => {
-                        mobileMenuOverlay.style.visibility = 'hidden';
-                        body.classList.remove('menu-open');
-                        
-                        const target = link.getAttribute('href');
-                        if (target && target !== '#') {
-                            const targetId = target.replace('#', '');
-                            showSection(targetId);
+            const target = link.getAttribute('href');
+            if (target && target !== '#') {
+                const targetSection = document.querySelector(target);
+                
+                if (typeof gsap !== 'undefined') {
+                    // Use GSAP for smoother menu close
+                    gsap.to(mobileMenuOverlay, {
+                        opacity: 0,
+                        duration: 0.25,
+                        ease: "power2.in",
+                        onComplete: () => {
+                            mobileMenuOverlay.style.visibility = 'hidden';
+                            body.classList.remove('menu-open');
                             
-                            // Update mobile section title
-                            if (mobileSectionTitle) {
-                                const sectionName = link.textContent.replace('[', '').replace(']', '').trim();
-                                mobileSectionTitle.textContent = `[ ${sectionName} ]`;
+                            // Scroll to section
+                            if (targetSection && window.innerWidth <= 768) {
+                                targetSection.scrollIntoView({ behavior: 'smooth' });
                             }
                         }
-                    }
-                });
-            } else {
-                // Fallback
-                mobileMenuOverlay.classList.remove('active');
-                body.classList.remove('menu-open');
-                
-                const target = link.getAttribute('href');
-                if (target && target !== '#') {
-                    const targetId = target.replace('#', '');
-                    showSection(targetId);
+                    });
+                } else {
+                    // Fallback
+                    mobileMenuOverlay.classList.remove('active');
+                    body.classList.remove('menu-open');
                     
-                    // Update mobile section title
-                    if (mobileSectionTitle) {
-                        const sectionName = link.textContent.replace('[', '').replace(']', '').trim();
-                        mobileSectionTitle.textContent = `[ ${sectionName} ]`;
+                    // Scroll to section
+                    if (targetSection && window.innerWidth <= 768) {
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
                     }
                 }
             }
@@ -545,252 +384,141 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Don't show any section automatically on desktop - user must click
     
-    // Mobile swipe navigation
-    if (isMobile) {
-        const sectionIds = ['about', 'studies', 'experience', 'work'];
-        let currentSectionIndex = 0;
+    // Mobile scroll-based animations with ScrollTrigger
+    if (isMobile && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        // Update mobile section title based on scroll position
+        const sections = document.querySelectorAll('.section');
         
-        // Show About section initially on mobile
-        const aboutSection = document.querySelector('#about');
-        if (aboutSection) {
-            aboutSection.classList.add('active');
-        }
-        
-        // Function to change section
-        const changeSection = (newIndex) => {
-            if (newIndex < 0 || newIndex >= sectionIds.length) return;
+        sections.forEach(section => {
+            ScrollTrigger.create({
+                trigger: section,
+                start: "top center",
+                end: "bottom center",
+                onEnter: () => {
+                    // Update mobile section title
+                    if (mobileSectionTitle) {
+                        const sectionName = section.id.toUpperCase();
+                        mobileSectionTitle.textContent = `[ ${sectionName} ]`;
+                    }
+                    // Update mobile nav brackets
+                    updateMobileNavBrackets(section.id);
+                },
+                onEnterBack: () => {
+                    // Update mobile section title when scrolling back
+                    if (mobileSectionTitle) {
+                        const sectionName = section.id.toUpperCase();
+                        mobileSectionTitle.textContent = `[ ${sectionName} ]`;
+                    }
+                    // Update mobile nav brackets
+                    updateMobileNavBrackets(section.id);
+                }
+            });
             
-            // Hide current section
-            const currentSection = document.querySelector(`#${sectionIds[currentSectionIndex]}`);
-            if (currentSection) {
-                currentSection.classList.remove('active');
-            }
-            
-            // Show new section
-            currentSectionIndex = newIndex;
-            const newSection = document.querySelector(`#${sectionIds[currentSectionIndex]}`);
-            if (newSection) {
-                newSection.classList.add('active');
+            // Animate About section on scroll
+            if (section.id === 'about') {
+                const aboutContent = section.querySelector('.about-content');
+                const aboutContentBottom = section.querySelector('.about-content-bottom');
                 
-                // Update mobile section title
-                if (mobileSectionTitle) {
-                    const titles = {
-                        'about': '[ ABOUT ]',
-                        'studies': '[ STUDIES ]',
-                        'experience': '[ EXPERIENCE ]',
-                        'work': '[ WORK ]'
-                    };
-                    mobileSectionTitle.textContent = titles[sectionIds[currentSectionIndex]] || '';
-                }
-                
-                // Update mobile nav brackets
-                updateMobileNavBrackets(sectionIds[currentSectionIndex]);
-                
-                // Trigger animations for About section with GSAP
-                if (sectionIds[currentSectionIndex] === 'about' && typeof gsap !== 'undefined') {
-                    const aboutContent = newSection.querySelector('.about-content');
-                    const aboutContentBottom = newSection.querySelector('.about-content-bottom');
-                    
-                    // Create GSAP timeline for About animations
-                    const aboutTl = gsap.timeline({ delay: 0.3 });
-                    
-                    if (aboutContent) {
-                        gsap.set(aboutContent, { opacity: 0, y: 20 });
-                        aboutTl.to(aboutContent, {
-                            opacity: 1,
-                            y: 0,
-                            duration: 0.6,
-                            ease: "power2.out"
-                        });
-                    }
-                    
-                    if (aboutContentBottom) {
-                        gsap.set(aboutContentBottom, { opacity: 0, y: 20 });
-                        aboutTl.to(aboutContentBottom, {
-                            opacity: 1,
-                            y: 0,
-                            duration: 0.6,
-                            ease: "power2.out"
-                        }, "-=0.4");
-                    }
-                } else if (sectionIds[currentSectionIndex] === 'about') {
-                    // Fallback for non-GSAP
-                    const aboutContent = newSection.querySelector('.about-content');
-                    const aboutContentBottom = newSection.querySelector('.about-content-bottom');
-                    
-                    // Reset animations
-                    if (aboutContent) {
-                        aboutContent.style.opacity = '0';
-                        aboutContent.style.transform = 'translateY(20px)';
-                    }
-                    if (aboutContentBottom) {
-                        aboutContentBottom.style.opacity = '0';
-                        aboutContentBottom.style.transform = 'translateY(20px)';
-                    }
-                    
-                    // Trigger animations with delay
-                    setTimeout(() => {
-                        if (aboutContent) {
-                            aboutContent.style.transition = 'all 0.6s ease';
-                            aboutContent.style.opacity = '1';
-                            aboutContent.style.transform = 'translateY(0)';
-                        }
-                        if (aboutContentBottom) {
-                            setTimeout(() => {
-                                aboutContentBottom.style.transition = 'all 0.6s ease';
-                                aboutContentBottom.style.opacity = '1';
-                                aboutContentBottom.style.transform = 'translateY(0)';
-                            }, 200);
-                        }
-                    }, 300);
-                }
-                
-                // Trigger animations for Studies section with GSAP
-                if (sectionIds[currentSectionIndex] === 'studies' && typeof gsap !== 'undefined') {
-                    const studiesContent = newSection.querySelector('.studies-content');
-                    const educationCards = newSection.querySelectorAll('.education-card');
-                    
-                    // Create GSAP timeline for Studies animations
-                    const studiesTl = gsap.timeline({ delay: 0.3 });
-                    
-                    if (educationCards.length > 0) {
-                        gsap.set(educationCards, { opacity: 0, y: 20 });
-                        studiesTl.to(educationCards, {
-                            opacity: 1,
-                            y: 0,
-                            duration: 0.6,
-                            stagger: 0.15,
-                            ease: "power2.out"
-                        });
-                    }
-                    
-                    if (studiesContent) {
-                        gsap.set(studiesContent, { opacity: 0 });
-                        studiesTl.to(studiesContent, {
-                            opacity: 1,
-                            duration: 0.6,
-                            ease: "power2.out"
-                        }, "-=0.3");
-                    }
-                } else if (sectionIds[currentSectionIndex] === 'studies') {
-                    // Fallback for non-GSAP
-                    const studiesContent = newSection.querySelector('.studies-content');
-                    const educationCards = newSection.querySelectorAll('.education-card');
-                    
-                    // Reset animations
-                    if (studiesContent) {
-                        studiesContent.classList.remove('visible');
-                    }
-                    educationCards.forEach(card => {
-                        card.classList.remove('visible');
-                    });
-                    
-                    // Trigger animations with delay
-                    setTimeout(() => {
-                        educationCards.forEach((card, index) => {
-                            setTimeout(() => {
-                                card.classList.add('visible');
-                            }, 100 + (index * 150));
-                        });
-                        // Show paragraph after cards
-                        if (studiesContent) {
-                            setTimeout(() => {
-                                studiesContent.classList.add('visible');
-                                console.log('Studies paragraph made visible:', studiesContent);
-                            }, 400);
-                        } else {
-                            console.log('Studies content not found!');
-                        }
-                    }, 300);
-                }
-                
-                // Add fade-in for Experience cards with GSAP
-                if (sectionIds[currentSectionIndex] === 'experience' && typeof gsap !== 'undefined') {
-                    const experienceCards = newSection.querySelectorAll('.experience-card');
-                    
-                    // Use GSAP for animations
-                    gsap.fromTo(experienceCards, 
-                        {
-                            opacity: 0,
-                            y: 20,
-                            scale: 0.9
-                        },
+                if (aboutContent) {
+                    gsap.fromTo(aboutContent,
+                        { opacity: 0, y: 30 },
                         {
                             opacity: 1,
                             y: 0,
-                            scale: 1,
-                            duration: 0.6,
-                            stagger: 0.12,
-                            ease: "power3.out",
-                            delay: 0.2
+                            duration: 0.8,
+                            ease: "power2.out",
+                            scrollTrigger: {
+                                trigger: aboutContent,
+                                start: "top 80%",
+                                once: true
+                            }
                         }
                     );
-                } else if (sectionIds[currentSectionIndex] === 'experience') {
-                    // Fallback for non-GSAP
-                    const experienceCards = newSection.querySelectorAll('.experience-card');
-                    
-                    // Reset animations first
-                    experienceCards.forEach(card => {
-                        card.style.opacity = '0';
-                        card.style.transform = 'translateY(20px)';
-                    });
-                    
-                    // Trigger animations with delay (same timing as Studies cards)
-                    setTimeout(() => {
-                        experienceCards.forEach((card, index) => {
-                            setTimeout(() => {
-                                card.style.opacity = '1';
-                                card.style.transform = 'translateY(0)';
-                                card.style.transition = 'all 0.6s ease';
-                            }, 100 + (index * 150)); // Same timing as Studies cards
-                        });
-                    }, 100);
+                }
+                
+                if (aboutContentBottom) {
+                    gsap.fromTo(aboutContentBottom,
+                        { opacity: 0, y: 30 },
+                        {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.8,
+                            ease: "power2.out",
+                            scrollTrigger: {
+                                trigger: aboutContentBottom,
+                                start: "top 80%",
+                                once: true
+                            }
+                        }
+                    );
                 }
             }
-        };
-        
-        // Touch handling for swipe
-        let touchStartY = 0;
-        let touchEndY = 0;
-        
-        document.addEventListener('touchstart', (e) => {
-            touchStartY = e.changedTouches[0].screenY;
-        });
-        
-        document.addEventListener('touchend', (e) => {
-            touchEndY = e.changedTouches[0].screenY;
-            handleSwipe();
-        });
-        
-        const handleSwipe = () => {
-            const swipeThreshold = 50;
-            const diff = touchStartY - touchEndY;
             
-            if (Math.abs(diff) > swipeThreshold) {
-                if (diff > 0) {
-                    // Swiped up - go to next section
-                    changeSection(currentSectionIndex + 1);
-                } else {
-                    // Swiped down - go to previous section
-                    changeSection(currentSectionIndex - 1);
+            // Animate Studies section on scroll
+            if (section.id === 'studies') {
+                const educationCards = section.querySelectorAll('.education-card');
+                const studiesContent = section.querySelector('.studies-content');
+                
+                if (educationCards.length > 0) {
+                    gsap.fromTo(educationCards,
+                        { opacity: 0, y: 30 },
+                        {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.8,
+                            stagger: 0.2,
+                            ease: "power2.out",
+                            scrollTrigger: {
+                                trigger: section.querySelector('.education-cards'),
+                                start: "top 80%",
+                                once: true
+                            }
+                        }
+                    );
+                }
+                
+                if (studiesContent) {
+                    gsap.fromTo(studiesContent,
+                        { opacity: 0 },
+                        {
+                            opacity: 1,
+                            duration: 0.8,
+                            ease: "power2.out",
+                            scrollTrigger: {
+                                trigger: studiesContent,
+                                start: "top 90%",
+                                once: true
+                            }
+                        }
+                    );
                 }
             }
-        };
-        
-        // Also handle wheel events for testing on desktop browser
-        let scrollTimeout;
-        document.addEventListener('wheel', (e) => {
-            if (window.innerWidth <= 768) {
-                e.preventDefault();
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
-                    if (e.deltaY > 0) {
-                        changeSection(currentSectionIndex + 1);
-                    } else {
-                        changeSection(currentSectionIndex - 1);
-                    }
-                }, 100);
+            
+            // Animate Experience section on scroll
+            if (section.id === 'experience') {
+                const experienceCards = section.querySelectorAll('.experience-card');
+                
+                if (experienceCards.length > 0) {
+                    experienceCards.forEach((card, index) => {
+                        gsap.fromTo(card,
+                            { opacity: 0, y: 30, scale: 0.95 },
+                            {
+                                opacity: 1,
+                                y: 0,
+                                scale: 1,
+                                duration: 0.8,
+                                delay: index * 0.1,
+                                ease: "power2.out",
+                                scrollTrigger: {
+                                    trigger: card,
+                                    start: "top 85%",
+                                    once: true
+                                }
+                            }
+                        );
+                    });
+                }
             }
-        }, { passive: false });
+        });
     }
 });

@@ -713,8 +713,10 @@ body {
 /* Mobile Styles */
 @media (max-width: 768px) {
     body {
-        overflow: hidden;
-        height: 100vh;
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: auto;
+        min-height: 100vh;
     }
     
     .main-header {
@@ -795,21 +797,14 @@ body {
         transition: fill 0.3s ease, stroke 0.3s ease;
     }
     
-    /* Mobile sections work like desktop - fixed and swapping */
+    /* Mobile sections flow normally for natural scrolling */
     .section {
-        position: fixed;
-        top: 0;
-        left: 0;
+        position: relative;
         width: 100vw;
-        height: 100vh;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.5s ease, visibility 0.5s ease;
-    }
-    
-    .section.active {
+        min-height: 100vh;
         opacity: 1;
         visibility: visible;
+        display: block;
     }
     
     /* About section - MOBILE */
