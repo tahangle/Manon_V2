@@ -595,7 +595,7 @@ body {
 .mobile-section-title {
     display: none;
     position: fixed;
-    top: calc(50% - 100px);
+    top: calc(50% - 25vh); /* Move section title up responsively */
     left: 50%;
     transform: translateX(-50%);
     font-family: var(--font-apercu);
@@ -731,7 +731,7 @@ body {
     /* Keep the logo visible on mobile and make it bigger */
     .site-logo {
         display: block !important;
-        transform: scale(1.8);
+        transform: scale(1.8) translateY(-15vh); /* Move logo up responsively */
         overflow: visible;
         grid-column: 1 / -1; /* Span all columns on mobile */
         justify-self: center;
