@@ -73,6 +73,27 @@ body {
     text-decoration: none;
     transition: opacity 0.08s ease;
     opacity: 1;
+    position: relative;
+}
+
+/* Add brackets on hover and active */
+.nav-link::before {
+    content: '[ ';
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.nav-link::after {
+    content: ' ]';
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.nav-link:hover::before,
+.nav-link:hover::after,
+.nav-link.active::before,
+.nav-link.active::after {
+    opacity: 1;
 }
 
 /* Adjust nav layout for medium screens - vertical stacking */
